@@ -24,6 +24,7 @@ ENV/
 .ruff_cache/
 .coverage
 htmlcov/
+*.log
 
 # Frontend dependencies and build output
 node_modules/
@@ -32,3 +33,6 @@ coverage/
 
 # Local OS files
 .DS_Store
+
+# macOS archive metadata
+__MACOSX/

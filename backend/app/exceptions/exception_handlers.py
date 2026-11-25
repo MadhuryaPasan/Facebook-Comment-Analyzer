@@ -1,13 +1,21 @@
-from fastapi import FastAPI, Request
+from fastapi import Request
 from fastapi.responses import JSONResponse
+from app.exceptions.exceptions import AppException
 
-from app.exceptions.exceptions import AppError
 
+async def app_exception_handler(request: Request, exc: AppException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "error": {
+                "code": exc.code,
+                "message": exc.detail,
+            }
+        },
+        headers=exc.headers,
+    )
 
-def register_exception_handlers(app: FastAPI) -> None:
-    @app.exception_handler(AppError)
-    async def app_error_handler(_: Request, exc: AppError) -> JSONResponse:
-        return JSONResponse(
-            status_code=exc.status_code,
-            content={"error": {"code": exc.code, "message": exc.message}},
-        )
+# Register in main.py:
+#   from app.exceptions.exceptions import AppException
+#   from app.exceptions.exception_handlers import app_exception_handler
+#   app.add_exception_handler(AppException, app_exception_handler)

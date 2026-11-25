@@ -36,3 +36,6 @@ coverage/
 
 # macOS archive metadata
 __MACOSX/
+
+# Notebook data exports (real comments)
+notebooks/data/

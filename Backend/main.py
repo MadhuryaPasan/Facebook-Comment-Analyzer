@@ -1,21 +1,16 @@
-# Note: try not to define endpoints on main. Always try to use routers
-# Rules: always add documentations. (summary, description, response_description,.etc)
-from fastapi import FastAPI
-from routers.v1 import facebook, analysis, reports
+from app.core.config import Config
+from app.main import app
 
-app = FastAPI(title="Facebook Comment Analyzer API", version="1.0")
+__all__ = ["app"]
 
 
-@app.get(
-    "/",
-    summary="Health check",
-    description="Checks if the main application is currently running.",
-    response_description="A JSON object containing the operational status",
-)
-def health_check() -> dict:
-    return {"status": "Main App Operational"}
+if __name__ == "__main__":
+    import uvicorn
 
-
-app.include_router(facebook.router)
-app.include_router(analysis.router)
-app.include_router(reports.router)
+    uvicorn.run(
+        "app.main:app",
+        host=Config.BACKEND_HOST,
+        port=Config.BACKEND_PORT,
+        reload=Config.BACKEND_DEBUG,
+        log_level="info",
+    )

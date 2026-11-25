@@ -90,8 +90,8 @@ Open `.env` and fill in the values:
 
 | Variable | What to put |
 |---|---|
-| `FB_PAGE_ID` | The Facebook page id (ask Sharuna) |
-| `FB_PAGE_ACCESS_TOKEN` | The page access token (ask Sharuna, and never post it in chat or commit it) |
+| `FB_PAGE_ID` | The Facebook page id |
+| `FB_PAGE_ACCESS_TOKEN` | The page access token |
 | `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_NAME` | Your local PostgreSQL details |
 | Everything else | Leave the default |
 

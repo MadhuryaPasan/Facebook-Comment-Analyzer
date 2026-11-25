@@ -1,5 +1,4 @@
 {
   "python.terminal.useEnvFile": true,
-  "python.defaultInterpreterPath": "${workspaceFolder}/backend/.venv/bin/python",
-  "jupyter.notebookFileRoot": "${workspaceFolder}/notebooks",
+  "python.defaultInterpreterPath": "${workspaceFolder}/backend/.venv/bin/python"
 }

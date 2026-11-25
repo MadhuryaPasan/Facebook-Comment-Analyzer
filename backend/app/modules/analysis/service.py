@@ -1,6 +1,6 @@
 from sqlmodel import Session
 
-from app.modules.analysis.schemas import AnalyzeRequest, AnalyzeTaskResponseDTO
+from backend.app.modules.analysis.models.schemas import AnalyzeRequest, AnalyzeTaskResponseDTO
 
 
 class AnalysisService:

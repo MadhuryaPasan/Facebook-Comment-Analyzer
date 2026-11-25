@@ -1,51 +1,36 @@
-from datetime import date
+from datetime import datetime
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field
 
-from app.shared.enums import Sentiment
-from app.shared.types import Score
-
-
-class DateRangeParams(BaseModel):
-    """Reusable inclusive date-range query parameters."""
-
-    model_config = ConfigDict(extra="forbid", populate_by_name=True)
-
-    from_date: Annotated[
-        date | None,
-        Field(alias="from", description="On or after this date (YYYY-MM-DD)"),
-    ] = None
-    to_date: Annotated[
-        date | None,
-        Field(alias="to", description="On or before this date (YYYY-MM-DD)"),
-    ] = None
-
-    @model_validator(mode="after")
-    def _check_range(self) -> "DateRangeParams":
-        if self.from_date and self.to_date and self.from_date > self.to_date:
-            raise ValueError("'from' must be on or before 'to'")
-        return self
+from app.shared.enums import Intent, Language, Sentiment
+from backend.app.shared.dtos import AspectSentimentDTO
+from app.shared.types import FBCommentId, FBPostId, Score
 
 
-class AspectSentimentDTO(BaseModel):
-    """Sentiment detected for a specific topic or aspect inside a comment."""
+class RawComment(BaseModel):
+    """Contract produced by `FacebookCommentFetcher` and consumed by `CommentAnalyzer`."""
 
     model_config = ConfigDict(from_attributes=True)
 
-    aspect: Annotated[str, Field(description="Topic the comment talks about, e.g. delivery, price")]
+    comment_id: FBCommentId
+    post_id: FBPostId
+    parent_id: FBCommentId | None = None
+    message: str
+    created_time: datetime
+    like_count: Annotated[int, Field(ge=0)] = 0
+    author_hash: Annotated[str | None,Field(description="Hashed commenter id, never the raw Facebook user id"),] = None
+
+
+class AnalysisResult(BaseModel):
+    """Contract produced by `CommentAnalyzer` and persisted to comment analyses."""
+
+    comment_id: FBCommentId
+    language: Language
     sentiment: Sentiment
-    score: Score
-
-
-class ErrorDetailDTO(BaseModel):
-    """Machine-readable error code and human-readable message."""
-
-    code: Annotated[str, Field(description="Stable application error code, e.g. POST_NOT_FOUND")]
-    message: Annotated[str, Field(description="Human-readable explanation of the error")]
-
-
-class ErrorResponseDTO(BaseModel):
-    """Standard API error envelope returned for AppException responses."""
-
-    error: ErrorDetailDTO
+    sentiment_score: Score
+    intent: Intent
+    aspects: list[AspectSentimentDTO] = []
+    keywords: list[str] = []
+    is_actionable: bool = False
+    model_version: str

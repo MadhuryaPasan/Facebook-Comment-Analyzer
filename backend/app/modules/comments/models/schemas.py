@@ -30,7 +30,6 @@ class CommentSearchParams(CommentFilterParams, DateRangeParams):
     """Query parameters for searching comments across all posts (`GET /comments`)."""
 
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True, populate_by_name=True)
-
     post_id: Annotated[FBPostId | None, Field(description="Only comments on this post")] = None
 
 
@@ -41,7 +40,6 @@ class CommentAnalysisSummaryDTO(BaseModel):
     """Compact NLP analysis summary included in comment list responses."""
 
     model_config = ConfigDict(from_attributes=True)
-
     sentiment: Sentiment
     sentiment_score: Score
     intent: Intent

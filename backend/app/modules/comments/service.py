@@ -1,6 +1,6 @@
 from sqlmodel import Session
 
-from app.modules.comments.schemas import (
+from backend.app.modules.comments.models.schemas import (
     CommentDetailResponseDTO,
     CommentFilterParams,
     CommentListResponseDTO,

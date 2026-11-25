@@ -1,9 +1,9 @@
 from fastapi import APIRouter, status
 
 from app.core.dependencies import DBSession
-from app.modules.analysis.schemas import AnalyzeRequest, AnalyzeTaskResponseDTO
+from backend.app.modules.analysis.models.schemas import AnalyzeRequest, AnalyzeTaskResponseDTO
 from app.modules.analysis.service import AnalysisService
-from app.shared.schemas import ErrorResponseDTO
+from backend.app.shared.dtos import ErrorResponseDTO
 
 router = APIRouter(tags=["analysis"])
 

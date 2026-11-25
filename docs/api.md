@@ -9,14 +9,14 @@ The API serves Facebook page comments and their analysis results to any UI. Comm
 - **No pagination yet.** List endpoints return all matching results.
 - **Base path:** `/api/v1`
 
-| # | Method | Path | Router | Service |
+| # | Method | Path | Module | Service |
 |---|---|---|---|---|
-| 1 | GET | `/posts` | `post_comment_router` | `PostCommentService.get_posts` |
-| 2 | GET | `/posts/{post_id}` | `post_comment_router` | `PostCommentService.get_post` |
-| 3 | GET | `/posts/{post_id}/comments` | `post_comment_router` | `PostCommentService.get_post_comments` |
-| 4 | GET | `/comments` | `post_comment_router` | `PostCommentService.get_comments` |
-| 5 | GET | `/comments/{comment_id}` | `post_comment_router` | `PostCommentService.get_comment` |
-| 6 | POST | `/comments/analyze` | `analysis_router` | `AnalysisService.queue_post_analysis` |
+| 1 | GET | `/posts` | `modules/posts` | `PostService.get_posts` |
+| 2 | GET | `/posts/{post_id}` | `modules/posts` | `PostService.get_post` |
+| 3 | GET | `/posts/{post_id}/comments` | `modules/comments` | `CommentService.get_post_comments` |
+| 4 | GET | `/comments` | `modules/comments` | `CommentService.get_comments` |
+| 5 | GET | `/comments/{comment_id}` | `modules/comments` | `CommentService.get_comment` |
+| 6 | POST | `/comments/analyze` | `modules/analysis` | `AnalysisService.queue_post_analysis` |
 
 ## Enums
 
@@ -27,7 +27,7 @@ The API serves Facebook page comments and their analysis results to any UI. Comm
 | `Language` | `en`, `si`, `ta`, `mixed` (Singlish / code-mixed) |
 | `TaskStatus` | `queued`, `processing`, `done`, `failed` |
 
-Query parameters are validated by Pydantic models in `app/models/schemas/post.py` and `app/models/schemas/comment.py`. An invalid enum value, an unknown query parameter, or `from` later than `to` returns `422`.
+Query parameters are validated by Pydantic models in each module's `schemas.py` (`app/modules/posts/schemas.py`, `app/modules/comments/schemas.py`). An invalid enum value, an unknown query parameter, or `from` later than `to` returns `422`.
 
 ---
 
@@ -257,7 +257,7 @@ Takes a post id and adds that post to the analyzer's task queue. It returns `202
 }
 ```
 
-**Worker flow** (`analyze_post_task`)
+**Background flow**
 
 1. Load the post's comments that have no analysis for the current `model_version`.
 2. Call `CommentAnalyzer.analyze_batch(comments)`, which takes `list[RawComment]` and returns `list[AnalysisResult]`.
@@ -267,14 +267,14 @@ Checking a task's progress is not available yet. A `GET /api/v1/tasks/{task_id}`
 
 ---
 
-## Shared contracts (`app/models/schemas/comment.py`)
+## Shared contracts (`app/shared/contracts.py`)
 
-The fetcher and the analyzer depend only on these models, never on each other's code.
+Ingestion and the analyzer depend only on these models, never on each other's code.
 
 | Model | Produced by | Consumed by |
 |---|---|---|
-| `RawComment` | `FacebookCommentFetcher` | `CommentAnalyzer`, DB save |
-| `AnalysisResult` | `CommentAnalyzer` | worker task → `comment_analyses` table |
+| `RawComment` | `app/pipeline/ingestion.py` | `CommentAnalyzer`, DB save |
+| `AnalysisResult` | `CommentAnalyzer` (`app/analyzer/analyzer.py`) | background queue → `comment_analyses` table |
 
 ---
 

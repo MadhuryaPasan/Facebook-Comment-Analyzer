@@ -38,35 +38,35 @@ git clone https://github.com/MadhuryaPasan/Facebook-Comment-Analyzer.git
 cd Facebook-Comment-Analyzer
 ```
 
-The new project setup is on the `deployment` branch. Switch to it:
+Make sure you're on the latest `main`:
 
 ```bash
-git checkout deployment
+git checkout main
 git pull
 ```
 
-Then create **your own branch** to work on. Never work directly on `main` or `deployment` (the full branching rules are in "Branching" below):
+Then create **your own branch** to work on. Never work directly on `main` (the naming rules are in "Branching" below):
 
 ```bash
-git checkout -b <your-name>/<what-you-are-building>
-# example: git checkout -b madhurya/fb-fetcher
+git checkout -b feature/<feature-name>
+# example: git checkout -b feature/facebook-api
 ```
 
 ---
 
 ## 3. Install the packages
 
-All Python code lives in `backend/`. Run uv from there:
+All Python code lives in `Backend/`. Run uv from there:
 
 ```bash
-cd backend
+cd Backend
 uv sync
 ```
 
 `uv sync` does three things:
 
 1. Installs Python 3.13 if you don't have it (from `.python-version`).
-2. Creates a virtual environment in `backend/.venv/`.
+2. Creates a virtual environment in `Backend/.venv/`.
 3. Installs the exact package versions listed in `uv.lock`, so everyone on the team has the same versions.
 
 You don't need to activate the virtual environment. Put `uv run` in front of every command instead (see step 5).
@@ -75,7 +75,7 @@ You don't need to activate the virtual environment. Put `uv run` in front of eve
 
 ## 4. Create your `.env` file
 
-The app reads its settings from `backend/.env`. That file is **not** in Git because it holds secrets, so each person creates their own from the example:
+The app reads its settings from `Backend/.env`. That file is **not** in Git because it holds secrets, so each person creates their own from the example:
 
 - macOS / Linux:
   ```bash
@@ -101,7 +101,7 @@ Open `.env` and fill in the values:
 
 ## 5. Run the backend
 
-From `backend/`:
+From `Backend/`:
 
 ```bash
 uv run python main.py
@@ -124,11 +124,11 @@ The full API spec is in `docs/api.md`.
 
 ## 6. VS Code setup (optional)
 
-The repo already includes `.vscode/settings.json`, which points VS Code to `backend/.venv`. If VS Code doesn't pick it up:
+The repo already includes `.vscode/settings.json`, which points VS Code to `Backend/.venv`. If VS Code doesn't pick it up:
 
 1. Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on Mac).
 2. Choose **Python: Select Interpreter**.
-3. Pick `backend/.venv`.
+3. Pick `Backend/.venv`.
 
 ---
 
@@ -138,11 +138,11 @@ We use `.ipynb` notebooks to try things out, for example testing the Graph API c
 
 ### Where they go
 
-Notebooks live in the **`notebooks/` folder at the repo root**, next to `backend/`, named by what they test:
+Notebooks live in the **`notebooks/` folder at the repo root**, next to `Backend/`, named by what they test:
 
 ```
 Facebook-Comment-Analyzer/
-├── backend/
+├── Backend/
 │   ├── app/
 │   ├── .venv/          ← notebooks use this environment too
 │   └── main.py
@@ -157,12 +157,12 @@ Keep them in `notebooks/` rather than loose in the root, so the root stays clean
 
 ### Running them
 
-Notebooks use the same environment as the backend, `backend/.venv`. There's no separate setup for them: `uv sync` in `backend/` already installs `ipykernel`, which VS Code needs to run notebooks. You don't need to install Jupyter separately.
+Notebooks use the same environment as the backend, `Backend/.venv`. There's no separate setup for them: `uv sync` in `Backend/` already installs `ipykernel`, which VS Code needs to run notebooks. You don't need to install Jupyter separately.
 
 1. Open the `.ipynb` file in VS Code.
-2. Click **Select Kernel** (top right) → **Python Environments** → choose **`backend/.venv`**. If it isn't listed, choose **Enter interpreter path** and enter `backend/.venv/bin/python` (on Windows: `backend\.venv\Scripts\python.exe`).
+2. Click **Select Kernel** (top right) → **Python Environments** → choose **`Backend/.venv`**. If it isn't listed, choose **Enter interpreter path** and enter `Backend/.venv/bin/python` (on Windows: `Backend\.venv\Scripts\python.exe`).
 
-If VS Code asks to install `ipykernel`, you picked the wrong kernel. Choose `backend/.venv` instead of clicking install, because installing from that prompt skips `uv.lock`.
+If VS Code asks to install `ipykernel`, you picked the wrong kernel. Choose `Backend/.venv` instead of clicking install, because installing from that prompt skips `uv.lock`.
 
 ### Importing project code in a notebook
 
@@ -174,7 +174,7 @@ The repo's `.vscode/settings.json` runs every notebook from the `notebooks/` fol
 
 So relative paths start from `notebooks/`. For example, `"data/comments.json"` means `notebooks/data/comments.json`.
 
-The `app` package is inside `backend/`, so Python can't find it from `notebooks/` on its own. Make this the **first cell of every notebook** that uses project code:
+The `app` package is inside `Backend/`, so Python can't find it from `notebooks/` on its own. Make this the **first cell of every notebook** that uses project code:
 
 ```python
 import sys
@@ -182,9 +182,9 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-BACKEND = Path.cwd().parent / "backend"
+BACKEND = Path.cwd().parent / "Backend"
 sys.path.insert(0, str(BACKEND))   # lets `from app...` work
-load_dotenv(BACKEND / ".env")      # loads backend/.env (token, DB settings)
+load_dotenv(BACKEND / ".env")      # loads Backend/.env (token, DB settings)
 ```
 
 After that cell, project imports work:
@@ -207,47 +207,50 @@ If you change code in `app/` while a notebook is open, restart the kernel to loa
 
 ## Branching: always work on your own branch
 
-Each piece of work gets **its own branch**, created from `deployment`. Nobody commits directly to `main` or `deployment`. Work reaches `deployment` only through a reviewed Pull Request.
+Every piece of work gets **its own branch**, created from `main`. Nobody commits directly to `main`. Work reaches `main` only through a reviewed Pull Request.
 
 ```
-main          ← stable releases only
- └─ deployment   ← shared integration branch (merge PRs here)
-     ├─ madhurya/fb-fetcher
-     ├─ sharuna/comment-analyzer
-     └─ <name>/<feature>
+main
+  │
+  ├── feature/user-authentication
+  ├── feature/facebook-api
+  ├── feature/sentiment-analysis
+  ├── feature/dashboard
+  └── fix/comment-fetching
 ```
 
-| Branch | Who writes to it | How |
+### Branch names
+
+Use `<type>/<short-description>`, lowercase, words joined with `-`:
+
+| Prefix | Use it for | Examples |
 |---|---|---|
-| `main` | Nobody directly | Merged from `deployment` when a version is stable |
-| `deployment` | Nobody directly | Only through Pull Requests |
-| `<name>/<feature>` | You | Your normal commits |
+| `feature/` | New functionality | `feature/facebook-api`, `feature/sentiment-analysis`, `feature/dashboard` |
+| `fix/` | Fixing a bug in existing code | `fix/comment-fetching`, `fix/token-expiry` |
 
-**Naming:** `<your-name>/<feature>`, lowercase, words joined with `-`. Examples:
-- `madhurya/fb-fetcher`
-- `sharuna/comment-analyzer`
+Name the branch after **what it does**, not who is doing it. `feature/facebook-api` is right; `madhurya/stuff` or `test-branch` are not.
 
-**One branch = one feature.** When the feature is merged, start a new branch for the next one. Don't keep reusing an old branch.
+**One branch = one feature or one fix.** When it's merged, start a new branch for the next piece of work. Don't keep reusing an old branch.
 
-### Starting a new feature
+### Starting a new branch
 
 ```bash
-git checkout deployment
-git pull                                  # get the latest shared code
-git checkout -b <your-name>/<feature>     # create your branch from it
-cd backend && uv sync                     # install any new packages
+git checkout main
+git pull                                   # get the latest code
+git checkout -b feature/<feature-name>     # or fix/<what-you-fix>
+cd Backend && uv sync                      # install any new packages
 ```
 
 ### Keeping your branch up to date
 
-When others merge into `deployment`, bring their changes into your branch, at least once a day, and always before opening a Pull Request:
+When others merge into `main`, bring their changes into your branch, at least once a day, and always before opening a Pull Request:
 
 ```bash
-git checkout deployment
+git checkout main
 git pull
-git checkout <your-name>/<feature>
-git merge deployment
-cd backend && uv sync
+git checkout feature/<feature-name>
+git merge main
+cd Backend && uv sync
 ```
 
 If Git reports a **merge conflict**, open the listed files, keep the right code between the `<<<<<<<` and `>>>>>>>` markers, delete the markers, then:
@@ -259,20 +262,20 @@ git commit
 
 Ask the person who wrote the other side of the conflict if you're not sure which code to keep.
 
-### Finishing a feature
+### Finishing a branch
 
-1. Update from `deployment` (above) and make sure the app still runs.
+1. Update from `main` (above) and make sure the app still runs.
 2. Push your branch:
    ```bash
-   git push -u origin <your-name>/<feature>
+   git push -u origin feature/<feature-name>
    ```
-3. On GitHub, open a **Pull Request** from your branch **into `deployment`**. Don't target `main`.
+3. On GitHub, open a **Pull Request** from your branch **into `main`**.
 4. At least one teammate reviews it, then it's merged.
 5. Delete the branch after merging. GitHub offers a button for this. Locally:
    ```bash
-   git checkout deployment
+   git checkout main
    git pull
-   git branch -d <your-name>/<feature>
+   git branch -d feature/<feature-name>
    ```
 
 ---
@@ -282,11 +285,11 @@ Ask the person who wrote the other side of the conflict if you're not sure which
 ### Start of the day: get the latest code and packages
 
 ```bash
-git checkout deployment
+git checkout main
 git pull
-git checkout <your-branch>
-git merge deployment
-cd backend
+git checkout feature/<feature-name>
+git merge main
+cd Backend
 uv sync
 ```
 
@@ -297,7 +300,7 @@ Run `uv sync` **every time you pull**. If someone added a package, it gets insta
 Always use `uv add`, **never `pip install`**:
 
 ```bash
-cd backend
+cd Backend
 uv add <package-name>             # needed to run the app
 uv add --dev <package-name>       # only for development (tests, linting)
 ```
@@ -312,16 +315,16 @@ To remove a package: `uv remove <package-name>`.
 git status                        # check what changed
 git add .
 git commit -m "feat: short description of what you did"
-git push -u origin <your-branch>  # -u only needed the first time
+git push -u origin feature/<feature-name>  # -u only needed the first time
 ```
 
-Then open a **Pull Request** on GitHub into `deployment` so someone can review it before it's merged.
+Then open a **Pull Request** on GitHub into `main` so someone can review it before it's merged.
 
 ---
 
 ## Rules
 
-- **Always work on your own branch.** Never commit or push directly to `main` or `deployment`. See "Branching" above.
+- **Always work on your own branch.** Never commit or push directly to `main`. Name branches `feature/...` or `fix/...`. See "Branching" above.
 - **Never commit `.env`.** It's in `.gitignore`. If a token is ever pushed by mistake, tell the team so it can be replaced.
 - **Never commit `.venv/`** or `__pycache__/`. Both are in `.gitignore` already.
 - **Clear notebook outputs before committing**, and keep tokens out of notebooks (see step 7).
@@ -336,11 +339,11 @@ Then open a **Pull Request** on GitHub into `deployment` so someone can review i
 | Problem | Fix |
 |---|---|
 | `uv: command not found` | Reopen the terminal after installing uv. On Windows, restart VS Code too. |
-| `ModuleNotFoundError: No module named ...` | Run `uv sync` in `backend/`, and run the app with `uv run`. |
-| `KeyError: 'FB_PAGE_ID'` | Your `.env` is missing or not in `backend/`. Redo step 4. |
+| `ModuleNotFoundError: No module named ...` | Run `uv sync` in `Backend/`, and run the app with `uv run`. |
+| `KeyError: 'FB_PAGE_ID'` | Your `.env` is missing or not in `Backend/`. Redo step 4. |
 | `Address already in use` (port 8000) | Another server is running. Stop it, or set a different `BACKEND_PORT` in `.env`. |
-| VS Code shows red import errors but the app runs | Select the `backend/.venv` interpreter (step 6). |
-| Notebook asks to install `ipykernel` | Select the `backend/.venv` kernel instead (step 7), then run `uv sync`. |
+| VS Code shows red import errors but the app runs | Select the `Backend/.venv` interpreter (step 6). |
+| Notebook asks to install `ipykernel` | Select the `Backend/.venv` kernel instead (step 7), then run `uv sync`. |
 | `ModuleNotFoundError: No module named 'app'` in a notebook | Run the setup cell from step 7 first. If it still fails, restart the kernel. |
 | `KeyError: 'FB_PAGE_ID'` in a notebook | The setup cell's `load_dotenv` must run **before** `from app.config import Config`. |
-| `uv sync` fails after pulling | Make sure you're in `backend/`, then try `uv sync --refresh`. |
+| `uv sync` fails after pulling | Make sure you're in `Backend/`, then try `uv sync --refresh`. |

@@ -1,6 +1,6 @@
 from sqlmodel import Session
 
-from backend.app.modules.posts.models.schemas import PostFilterParams, PostListResponseDTO, PostResponseDTO
+from app.modules.posts.models.schemas import PostFilterParams, PostListResponseDTO, PostResponseDTO
 
 
 class PostService:

@@ -3,9 +3,9 @@ from typing import Annotated
 from fastapi import APIRouter, Path, Query, status
 
 from app.core.dependencies import DBSession
-from backend.app.modules.posts.models.schemas import PostFilterParams, PostListResponseDTO, PostResponseDTO
+from app.modules.posts.models.schemas import PostFilterParams, PostListResponseDTO, PostResponseDTO
 from app.modules.posts.service import PostService
-from backend.app.shared.dtos import ErrorResponseDTO
+from app.shared.dtos import ErrorResponseDTO
 
 router = APIRouter(prefix="/posts", tags=["posts"])
 

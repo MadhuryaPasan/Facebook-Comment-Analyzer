@@ -39,3 +39,4 @@ __MACOSX/
 
 # Notebook data exports (real comments)
 notebooks/data/
+.idea/

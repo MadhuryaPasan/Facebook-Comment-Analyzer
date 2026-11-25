@@ -3,7 +3,7 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.shared.schemas import DateRangeParams
+from app.shared.dtos import DateRangeParams
 from app.shared.types import FBPostId
 
 

@@ -4,7 +4,7 @@ from typing import Annotated
 from pydantic import BaseModel, ConfigDict, Field
 
 from app.shared.enums import Intent, Language, Sentiment
-from backend.app.shared.dtos import AspectSentimentDTO
+from app.shared.dtos import AspectSentimentDTO
 from app.shared.types import FBCommentId, FBPostId, Score
 
 

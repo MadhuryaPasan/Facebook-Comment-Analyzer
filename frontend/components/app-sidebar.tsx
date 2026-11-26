@@ -13,18 +13,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import {
-  RowsIcon,
-  WaveformIcon,
-  CommandIcon,
-  TerminalIcon,
-  RobotIcon,
-  BookOpenIcon,
-  GearIcon,
-  CropIcon,
-  ChartPieIcon,
-  MapTrifoldIcon,
-} from "@phosphor-icons/react"
+import { GalleryVerticalEndIcon, AudioLinesIcon, TerminalIcon, TerminalSquareIcon, BotIcon, BookOpenIcon, Settings2Icon, FrameIcon, PieChartIcon, MapIcon } from "lucide-react"
 
 // This is sample data.
 const data = {
@@ -36,31 +25,37 @@ const data = {
   teams: [
     {
       name: "Acme Inc",
-      logo: <RowsIcon />,
+      logo: (
+        <GalleryVerticalEndIcon
+        />
+      ),
       plan: "Enterprise",
     },
     {
       name: "Acme Corp.",
-      logo: <WaveformIcon />,
+      logo: (
+        <AudioLinesIcon
+        />
+      ),
       plan: "Startup",
     },
     {
       name: "Evil Corp.",
-      logo: <CommandIcon />,
+      logo: (
+        <TerminalIcon
+        />
+      ),
       plan: "Free",
     },
   ],
   navMain: [
     {
-      title: "Home",
-      url: "#",
-      icon: <TerminalIcon />,
-      isActive: false,
-    },
-    {
       title: "Playground",
       url: "#",
-      icon: <TerminalIcon />,
+      icon: (
+        <TerminalSquareIcon
+        />
+      ),
       isActive: true,
       items: [
         {
@@ -80,7 +75,10 @@ const data = {
     {
       title: "Models",
       url: "#",
-      icon: <RobotIcon />,
+      icon: (
+        <BotIcon
+        />
+      ),
       items: [
         {
           title: "Genesis",
@@ -99,7 +97,10 @@ const data = {
     {
       title: "Documentation",
       url: "#",
-      icon: <BookOpenIcon />,
+      icon: (
+        <BookOpenIcon
+        />
+      ),
       items: [
         {
           title: "Introduction",
@@ -122,7 +123,10 @@ const data = {
     {
       title: "Settings",
       url: "#",
-      icon: <GearIcon />,
+      icon: (
+        <Settings2Icon
+        />
+      ),
       items: [
         {
           title: "General",
@@ -143,22 +147,30 @@ const data = {
       ],
     },
   ],
-
   projects: [
     {
       name: "Design Engineering",
       url: "#",
-      icon: <CropIcon />,
+      icon: (
+        <FrameIcon
+        />
+      ),
     },
     {
       name: "Sales & Marketing",
       url: "#",
-      icon: <ChartPieIcon />,
+      icon: (
+        <PieChartIcon
+        />
+      ),
     },
     {
       name: "Travel",
       url: "#",
-      icon: <MapTrifoldIcon />,
+      icon: (
+        <MapIcon
+        />
+      ),
     },
   ],
 }

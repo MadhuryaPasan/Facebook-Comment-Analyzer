@@ -15,7 +15,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
-import { CaretRightIcon } from "@phosphor-icons/react"
+import { ChevronRightIcon } from "lucide-react"
 
 export function NavMain({
   items,
@@ -47,7 +47,7 @@ export function NavMain({
             >
               {item.icon}
               <span>{item.title}</span>
-              <CaretRightIcon className="ml-auto transition-transform duration-200 group-data-open/collapsible:rotate-90" />
+              <ChevronRightIcon className="ml-auto transition-transform duration-200 group-data-open/collapsible:rotate-90" />
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarMenuSub>

@@ -1,15 +1,12 @@
-import { Geist, Geist_Mono, IBM_Plex_Sans } from "next/font/google"
-import { TooltipProvider } from "@/components/ui/tooltip"
-import { Toaster } from "@/components/ui/toast"
+import { Geist, Geist_Mono, Inter } from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
+import { TooltipProvider } from "@/components/ui/tooltip"
+import { Toaster } from "@/components/ui/toast"
 
-const ibmPlexSans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-})
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
@@ -29,13 +26,13 @@ export default function RootLayout({
         "antialiased",
         fontMono.variable,
         "font-sans",
-        ibmPlexSans.variable
+        inter.variable
       )}
     >
       <body>
         <ThemeProvider>
           <TooltipProvider>{children}</TooltipProvider>
-          <Toaster />
+           <Toaster />
         </ThemeProvider>
       </body>
     </html>

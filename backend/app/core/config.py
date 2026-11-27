@@ -28,6 +28,8 @@ class Config:
     FB_PAGE_ID: str = os.getenv("FB_PAGE_ID", "")
     FB_PAGE_ACCESS_TOKEN: str = os.getenv("FB_PAGE_ACCESS_TOKEN", "")
     FB_GRAPH_API_VERSION: str = os.getenv("FB_GRAPH_API_VERSION", "v21.0")
+    FB_VERIFY_TOKEN = os.getenv("FB_VERIFY_TOKEN", "")
+    FB_APP_SECRET = os.getenv("FB_APP_SECRET", "")
 
     # Database
     DB_USER: str = os.getenv("DB_USER", "postgres")

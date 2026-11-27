@@ -14,53 +14,47 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import {
-  RowsIcon,
-  WaveformIcon,
-  CommandIcon,
+  GalleryVerticalEndIcon,
+  AudioLinesIcon,
   TerminalIcon,
-  RobotIcon,
+  TerminalSquareIcon,
+  BotIcon,
   BookOpenIcon,
-  GearIcon,
-  CropIcon,
-  ChartPieIcon,
-  MapTrifoldIcon,
-} from "@phosphor-icons/react"
+  Settings2Icon,
+  FrameIcon,
+  PieChartIcon,
+  MapIcon,
+} from "lucide-react"
 
 // This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: "User",
+    email: "user@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
   teams: [
     {
       name: "Acme Inc",
-      logo: <RowsIcon />,
+      logo: <GalleryVerticalEndIcon />,
       plan: "Enterprise",
     },
     {
       name: "Acme Corp.",
-      logo: <WaveformIcon />,
+      logo: <AudioLinesIcon />,
       plan: "Startup",
     },
     {
       name: "Evil Corp.",
-      logo: <CommandIcon />,
+      logo: <TerminalIcon />,
       plan: "Free",
     },
   ],
   navMain: [
     {
-      title: "Home",
-      url: "#",
-      icon: <TerminalIcon />,
-      isActive: false,
-    },
-    {
       title: "Playground",
       url: "#",
-      icon: <TerminalIcon />,
+      icon: <TerminalSquareIcon />,
       isActive: true,
       items: [
         {
@@ -78,9 +72,9 @@ const data = {
       ],
     },
     {
-      title: "Models",
+      title: "Example",
       url: "#",
-      icon: <RobotIcon />,
+      icon: <BotIcon />,
       items: [
         {
           title: "Genesis",
@@ -96,69 +90,22 @@ const data = {
         },
       ],
     },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: <BookOpenIcon />,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: <GearIcon />,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
   ],
-
   projects: [
     {
       name: "Design Engineering",
       url: "#",
-      icon: <CropIcon />,
+      icon: <FrameIcon />,
     },
     {
       name: "Sales & Marketing",
       url: "#",
-      icon: <ChartPieIcon />,
+      icon: <PieChartIcon />,
     },
     {
       name: "Travel",
       url: "#",
-      icon: <MapTrifoldIcon />,
+      icon: <MapIcon />,
     },
   ],
 }

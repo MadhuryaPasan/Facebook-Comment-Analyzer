@@ -2,6 +2,7 @@ from datetime import UTC, datetime
 
 from sqlmodel import Session
 
+from app.modules.posts.exceptions import PostNotFoundException
 from app.modules.posts.models.schemas import (
     PostFilterParams,
     PostListResponseDTO,
@@ -47,4 +48,7 @@ class PostService:
     @staticmethod
     def get_post(post_id: str, db: Session) -> PostResponseDTO:
         """Return a single post and its sentiment breakdown."""
-        raise NotImplementedError("PostService.get_post is not implemented yet")
+        for post in SAMPLE_POSTS:
+            if post.post_id == post_id:
+                return post
+        raise PostNotFoundException(post_id)
